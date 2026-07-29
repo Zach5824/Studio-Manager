@@ -24,3 +24,16 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
+# FAQ Schemas
+class FAQCreate(BaseModel):
+    category: str
+    question: str
+    answer: str
+
+class FAQResponse(FAQCreate):
+    id: int
+    created_by: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
