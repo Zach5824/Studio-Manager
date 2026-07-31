@@ -1,37 +1,33 @@
-import enum
+from pydantic import BaseModel
+from typing import Optional, List
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Enum, Integer, String, Text
-from sqlalchemy.orm import relationship
+class TrackCreate(BaseModel):
+    title: str
+    genre: str
+    bpm: int
+    musical_key: str
+    technical_challenge: Optional[str] = None
 
-from .database import Base
+class TrackResponse(TrackCreate):
+    id: int
+    user_id: int
+    highlighted_mix_id: Optional[int] = None
+    created_at: datetime
 
+    class Config:
+        from_attributes = True
 
-class UserRole(str, enum.Enum):
-    user = "user"
-    producer = "producer"
-    admin = "admin"
+class ReplyCreate(BaseModel):
+    content: str
 
+class ReplyResponse(BaseModel):
+    id: int
+    track_id: int
+    user_id: int
+    content: str
+    votes_count: int
+    created_at: datetime
 
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String(50), unique=True, nullable=False, index=True)
-    email = Column(String(255), unique=True, nullable=False, index=True)
-    password_hash = Column(String(255), nullable=False)
-    role = Column(Enum(UserRole), nullable=False, default=UserRole.user)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-
-    tracks = relationship("Track", back_populates="owner")
-
-
-class FAQ(Base):
-    __tablename__ = "faqs"
-
-    id = Column(Integer, primary_key=True, index=True)
-    category = Column(String(100), nullable=False)
-    question = Column(Text, nullable=False)
-    answer = Column(Text, nullable=False)
-    created_by = Column(Integer, nullable=False)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    class Config:
+        from_attributes = True

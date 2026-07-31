@@ -26,6 +26,10 @@ export default function LoginForm() {
           <p className="mt-4 max-w-md text-sm leading-7 text-slate-300 sm:text-base">
             Review audio assets, coordinate feedback, and keep your team aligned in one calm, focused workspace.
           </p>
+          <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300">
+            <p className="font-medium text-white">Backend status</p>
+            <p className="mt-2">Connects to the FastAPI service running at http://localhost:8000.</p>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 sm:p-10">

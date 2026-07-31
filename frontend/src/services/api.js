@@ -1,9 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // Vite replaces this at build time in Vercel. The fallback keeps local
-  // development working without an environment file.
-  baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:8000',
+  baseURL: 'http://localhost:8000',
 });
 
 api.interceptors.request.use((config) => {
