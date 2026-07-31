@@ -12,7 +12,10 @@ SECRET_KEY = os.getenv("SECRET_KEY", "super-secret-studio-key")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# bcrypt 5 is incompatible with older Passlib releases and raises during
+# hashing. New passwords use PBKDF2-SHA256; bcrypt remains available so any
+# existing bcrypt hashes can still be verified during a future migration.
+pwd_context = CryptContext(schemes=["pbkdf2_sha256", "bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 def hash_password(password: str) -> str:
