@@ -3,6 +3,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
+from . import models, models_domain  # noqa: F401 - registers SQLAlchemy tables
 from .routes import auth, admin, tracks, interactions
 
 # Initialize tables

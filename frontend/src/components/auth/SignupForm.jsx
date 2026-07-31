@@ -21,7 +21,7 @@ export default function SignupForm() {
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(245,158,11,0.18),_transparent_32%)] px-4 py-12 flex items-center justify-center">
       <div className="w-full max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-slate-950/70 shadow-2xl shadow-black/40 backdrop-blur xl:grid xl:grid-cols-[1.05fr_0.95fr]">
         <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 p-8 sm:p-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-amber-400">New Producer</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-amber-400">New Studio Member</p>
           <h2 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">Create your account and start collaborating.</h2>
           <p className="mt-4 max-w-md text-sm leading-7 text-slate-300 sm:text-base">
             Join the studio catalog, share feedback, and keep every track moving with clear context.
@@ -93,7 +93,7 @@ export default function SignupForm() {
             disabled={loading}
             className="mt-8 w-full rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {loading ? 'Creating Account...' : 'Register Producer Account'}
+            {loading ? 'Creating Account...' : `Register ${formData.role === 'producer' ? 'Producer' : 'User'} Account`}
           </button>
 
           <p className="mt-6 text-center text-sm text-slate-400">
