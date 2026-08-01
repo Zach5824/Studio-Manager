@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTracks } from '../../store/trackSlice';
 import { Link } from 'react-router-dom';
-import { Search, Disc, Sliders } from 'lucide-react';
+import { Disc } from 'lucide-react';
 
 export default function CatalogTable() {
   const dispatch = useDispatch();
-  const { items, loading } = useSelector((state) => state.tracks);
+  const { items, loading, error } = useSelector((state) => state.tracks);
   const [filter, setFilter] = useState({ genre: '', bpm: '' });
 
   useEffect(() => {
@@ -41,6 +41,12 @@ export default function CatalogTable() {
       </div>
 
       {/* Catalog Table */}
+      {error && (
+        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+          Unable to load the catalog: {typeof error === 'string' ? error : error.detail || 'Please try again.'}
+        </div>
+      )}
+
       <div className="bg-stone-900 border border-stone-800 rounded-xl overflow-hidden">
         <table className="w-full text-left">
           <thead className="bg-stone-950 text-stone-400 text-xs uppercase border-b border-stone-800">
@@ -74,6 +80,18 @@ export default function CatalogTable() {
                 </td>
               </tr>
             ))}
+            {!loading && !error && items.length === 0 && (
+              <tr>
+                <td colSpan="6" className="p-10 text-center text-stone-400">
+                  No music matches these filters yet.
+                </td>
+              </tr>
+            )}
+            {loading && (
+              <tr>
+                <td colSpan="6" className="p-10 text-center text-stone-400">Loading music catalog…</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

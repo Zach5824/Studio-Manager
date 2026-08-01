@@ -1,13 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../services/api';
 
+const getErrorMessage = (err, fallback) => {
+  const detail = err.response?.data?.detail;
+  if (Array.isArray(detail)) {
+    return detail.map((item) => item.msg).filter(Boolean).join(', ') || fallback;
+  }
+  return detail || fallback;
+};
+
 export const fetchTracks = createAsyncThunk('tracks/fetchTracks', async (filters, { rejectWithValue }) => {
   try {
-    const params = new URLSearchParams(filters).toString();
-    const response = await api.get(`/tracks/?${params}`);
+    const params = new URLSearchParams(
+      Object.entries(filters || {}).filter(([, value]) => value !== '' && value !== null && value !== undefined),
+    ).toString();
+    const response = await api.get(`/tracks/${params ? `?${params}` : ''}`);
     return response.data;
   } catch (err) {
-    return rejectWithValue(err.response?.data || 'Error fetching tracks');
+    return rejectWithValue(getErrorMessage(err, 'Error fetching tracks'));
   }
 });
 
@@ -16,7 +26,7 @@ export const createTrack = createAsyncThunk('tracks/createTrack', async (trackDa
     const response = await api.post('/tracks/', trackData);
     return response.data;
   } catch (err) {
-    return rejectWithValue(err.response?.data || 'Failed to upload track');
+    return rejectWithValue(getErrorMessage(err, 'Failed to add music'));
   }
 });
 

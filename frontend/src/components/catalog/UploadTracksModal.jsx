@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { createTrack, fetchTracks } from '../../store/trackSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,10 +14,11 @@ export default function UploadTrackModal() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { loading, error } = useSelector((state) => state.tracks);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { ...formData, bpm: parseInt(formData.bpm, 10) };
+    const payload = { ...formData, bpm: Number(formData.bpm) };
     const result = await dispatch(createTrack(payload));
     if (createTrack.fulfilled.match(result)) {
       await dispatch(fetchTracks({}));
@@ -33,6 +34,11 @@ export default function UploadTrackModal() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <div className="rounded border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-300">
+            {typeof error === 'string' ? error : error.detail || 'Unable to add music. Please try again.'}
+          </div>
+        )}
         <div>
           <label className="block text-xs uppercase tracking-wider text-stone-400 mb-1">Track Title</label>
           <input 
@@ -86,8 +92,8 @@ export default function UploadTrackModal() {
           />
         </div>
 
-        <button type="submit" className="w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold py-3 rounded transition">
-          Publish Track to Studio
+        <button disabled={loading} type="submit" className="w-full bg-amber-600 hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-70 text-stone-950 font-bold py-3 rounded transition">
+          {loading ? 'Adding Music…' : 'Add Music to Catalog'}
         </button>
       </form>
     </div>

@@ -51,7 +51,16 @@ export default function SignupForm() {
             </button>
           </div>
 
-          {error && <div className="mt-6 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">{error}</div>}
+          {error && (
+            <div className="mt-6 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+              <p>{error}</p>
+              {error.toLowerCase().includes('already registered') && (
+                <Link to="/login" className="mt-2 inline-block font-medium text-amber-400 hover:text-amber-300">
+                  This account already exists. Sign in instead.
+                </Link>
+              )}
+            </div>
+          )}
 
           <div className="mt-6 space-y-4">
             <div>

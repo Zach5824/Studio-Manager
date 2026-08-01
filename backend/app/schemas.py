@@ -24,6 +24,23 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
+# Track Schemas
+class TrackCreate(BaseModel):
+    title: str
+    genre: str
+    bpm: int
+    musical_key: str
+    technical_challenge: Optional[str] = None
+
+
+class TrackResponse(TrackCreate):
+    id: int
+    user_id: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
 # FAQ Schemas
 class FAQCreate(BaseModel):
     category: str

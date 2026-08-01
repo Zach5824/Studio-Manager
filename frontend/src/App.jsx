@@ -29,7 +29,7 @@ export default function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/catalog" element={<CatalogPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/upload" element={<ProtectedRoute requireRole="producer"><UploadTrackModal /></ProtectedRoute>} />
+          <Route path="/upload" element={<ProtectedRoute requireRole="producer" strictRole><UploadTrackModal /></ProtectedRoute>} />
           <Route path="/tracks/:id" element={<TrackDetailPage />} />
           <Route path="/faqs" element={<FaqPage />} />
           

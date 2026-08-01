@@ -35,7 +35,7 @@ export default function AppLayout() {
               <Link to="/profile" className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm text-slate-300 transition hover:bg-white/10 hover:text-amber-400">
                 <UserCircle2 className="h-5 w-5" /> Profile
               </Link>
-              {(user?.role === 'producer' || user?.role === 'admin') && (
+              {user?.role === 'producer' && (
                 <Link to="/upload" className="flex items-center gap-3 rounded-2xl px-4 py-3 text-sm text-slate-300 transition hover:bg-white/10 hover:text-amber-400">
                   <PlusCircle className="h-5 w-5" /> Upload Track
                 </Link>

@@ -1,0 +1,9 @@
+.vercel
+.env*
+__pycache__/
+*.pyc
+.venv/
+.venv-railway/
+backend/studio.db
+frontend/dist/
+

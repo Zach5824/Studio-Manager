@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-export default function ProtectedRoute({ requireRole, children }) {
+export default function ProtectedRoute({ requireRole, strictRole = false, children }) {
   const { token, user } = useSelector((state) => state.auth);
 
   if (!token) {
@@ -10,7 +10,7 @@ export default function ProtectedRoute({ requireRole, children }) {
   }
 
   const isProducer = user?.role === 'producer' || user?.role === 'admin';
-  const hasAccess = !requireRole || user?.role === requireRole || (requireRole === 'producer' && isProducer) || user?.role === 'admin';
+  const hasAccess = !requireRole || user?.role === requireRole || (!strictRole && ((requireRole === 'producer' && isProducer) || user?.role === 'admin'));
 
   if (!hasAccess) {
     return <Navigate to="/catalog" replace />;
